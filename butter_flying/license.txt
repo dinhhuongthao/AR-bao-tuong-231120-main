@@ -1,0 +1,11 @@
+Model Information:
+* title:	Butter Flying
+* source:	https://sketchfab.com/3d-models/butter-flying-7a130388b67942caae9f2321522d2440
+* author:	TPackard (https://sketchfab.com/TPackard)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Butter Flying" (https://sketchfab.com/3d-models/butter-flying-7a130388b67942caae9f2321522d2440) by TPackard (https://sketchfab.com/TPackard) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

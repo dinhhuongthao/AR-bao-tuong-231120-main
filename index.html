@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Image based tracking AR.js demo</title>
+  <!-- import aframe and then ar.js with image tracking / location based features -->
+  <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.1.0/dist/aframe-extras.min.js"></script>
+  <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+
+  <!-- style for the loader -->
+  <style>
+    .arjs-loader {
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background-color: rgba(0, 0, 0, 0.8);
+      z-index: 9999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .arjs-loader div {
+      text-align: center;
+      font-size: 1.25em;
+      color: white;
+    }
+  </style>
+</head>
+
+<body style="margin : 0px; overflow: hidden;">
+  <!-- minimal loader shown until image descriptors are loaded. Loading may take a while according to the device computational power -->
+  <div class="arjs-loader">
+    <div>Loading, please wait...</div>
+  </div>
+
+  <!-- a-frame scene -->
+  <a-scene vr-mode-ui="enabled: false;" renderer="logarithmicDepthBuffer: true;" embedded
+    arjs="trackingMethod: best; sourceType: webcam;debugUIEnabled: false;">
+    <!-- a-nft is the anchor that defines an Image Tracking entity -->
+    <!-- on 'url' use the path to the Image Descriptors created before. -->
+    <!-- the path should end with the name without the extension e.g. if file is trex.fset' the path should end with trex -->
+    <a-nft type="nft" url="./output/hoa" smooth="true" smoothCount="10" smoothTolerance=".01" smoothThreshold="5">
+      <!-- as a child of the a-nft entity, you can define the content to show. here's a GLTF model entity -->
+      <!-- <a-entity
+          gltf-model="https://raw.githubusercontent.com/AR-js-org/AR.js/master/aframe/examples/image-tracking/nft/trex/scene.gltf"
+              scale="5 5 5"
+              position="100 100 0"
+          >
+          </a-entity> -->
+      <a-entity gltf-model="./Butterflies/scene.gltf" scale="1 1 1" position="100 -200 -150" rotation="150 60 110"
+        animation-mixer="clip: Take 001">
+      </a-entity>
+    </a-nft>
+    <a-nft type="nft" url="./output/huongduong" smooth="true" smoothCount="10" smoothTolerance=".01"
+      smoothThreshold="5">
+      <!-- as a child of the a-nft entity, you can define the content to show. here's a GLTF model entity -->
+      <a-entity gltf-model="./Animated_Flying_Fluttering_Butterfly_Loop/scene.gltf" position="95 -233 -200"
+        scale="1000 1000 1000" rotation="0 -90 45" animation-mixer="clip: *;">
+      </a-entity>
+        <a-sound src="https://cdn.aframe.io/basic-guide/audio/backgroundnoise.wav" autoplay="true"
+          position="95 -233 -200"></a-sound>
+    </a-nft>
+    <a-asset>
+      <audio src="bird-singing.mp3" autoplay preload></audio>
+    </a-asset>
+    <!-- <a-entity gltf-model="./butter_flying/scene.gltf" scale="5 5 5" position="0 0.5 -5"
+      animation-mixer="clip: Take 001">
+    </a-entity> -->
+    <!-- <a-entity text="value: Hello, A-Frame!; color: #BBB" position="0 0.5 -3" scale="1.5 1.5 1.5"></a-entity> -->
+    <!-- static camera that moves according to the device movemenents -->
+    <a-entity camera>
+      <!-- <a-cursor></a-cursor> -->
+    </a-entity>
+  </a-scene>
+</body>
+
+</html>
