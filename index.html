@@ -4,11 +4,113 @@
 <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>VPĐ - AR - Báo tường 20.11</title>
+  <title>VPĐ - Báo tường 20.11.2023 - AR</title>
   <!-- import aframe and then ar.js with image tracking / location based features -->
-  <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.1.0/dist/aframe-extras.min.js"></script>
+  <!-- <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+  <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script> -->
+
+  <script
+    src="https://cdn.jsdelivr.net/gh/aframevr/aframe@1c2407b26c61958baa93967b5412487cd94b290b/dist/aframe-master.min.js"></script>
   <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.1.0/dist/aframe-extras.min.js"></script>
+  <!-- <script>
+    window.onload = function () {
+    AFRAME.registerComponent('soundhandler', {
+      init: function () {
+        var marker = this.el;
+
+        this.sound = document.querySelector("#sound");
+
+        marker.addEventListener('markerFound', function () {
+          setTimeout(evt => {
+            this.el.setAttribute("position", marker.getAttribute("position"));
+            this.el.setAttribute("rotation", marker.getAttribute("rotation"));
+          }, 500)
+          this.sound.play();
+        }.bind(this));
+
+        marker.addEventListener('markerLost', function () {
+          this.sound.pause();
+          this.sound.currentTime = 0;
+        }.bind(this));
+
+      }
+    });
+    };
+
+    AFRAME.registerComponent("ui-logic", {
+      init: function () {
+        const video_element = document.querySelector("[material]")
+        const ui = document.querySelector("#UI")
+        ui.addEventListener("click", e => {
+          video_element.emit("reposition")
+        })
+      }
+    })
+
+    // position yourself at the marker position
+    AFRAME.registerComponent('video-logic', {
+      init: function () {
+        const marker_element = document.querySelector("a-nft");
+        const sound = document.querySelector("#sound")
+        sound.pause()
+
+        const offset = new THREE.Vector3(0, 0.5, 0)
+        this.el.addEventListener("reposition", evt => {
+          this.el.object3D.position.copy(marker_element.object3D.position)
+          this.el.object3D.rotation.copy(marker_element.object3D.rotation)
+        })
+
+        marker_element.addEventListener("markerFound", evt => {
+          if (sound.paused) {
+            setTimeout(evt => {
+              this.el.emit("reposition")
+              sound.play();
+            }, 500)
+          }
+        })
+      }
+    });
+  </script> -->
+
+  <!-- Click play sound -->
+  <script>
+    var should_play = true
+    window.onclick = () => {
+      if (should_play) {
+        should_play = !should_play
+        let soundSource = "sm-bird-singing.mp3";
+        let sound = new Audio(soundSource);
+        sound.play();
+        sound.loop = true;
+        // sound.onended = () => {
+        //   should_play = true
+        // }
+
+        // var fadeInPoint = 2;
+        // var fadePoint = sound.duration - 4;
+
+        // var fadeAudio = setInterval(function () {
+
+        //   // Only fade if past the fade out point or not at zero already
+        //   if ((sound.currentTime <= fadeInPoint) && (sound.volume < 1.0)) {
+        //     sound.volume += 0.1;
+        //   }
+        //   if ((sound.currentTime >= fadePoint) && (sound.volume != 0.0)) {
+        //     sound.volume -= 0.1;
+        //   }
+        //   // When volume at zero stop all the intervalling
+        //   if (sound.volume === 0.0) {
+        //     clearInterval(fadeAudio);
+        //   }
+        // }, 200);
+      }
+
+    }
+
+  </script>
+
 
   <!-- style for the loader -->
   <style>
@@ -34,6 +136,18 @@
 </head>
 
 <body style="margin : 0px; overflow: hidden;">
+  <div
+    style="position: fixed; top: 0; left: 0; right: 0; text-align: center; font-size: 18px; font-family: Arial, Helvetica, sans-serif; font-weight: bold; padding: 10px; vertical-align: middle; background: linear-gradient(180deg, #f598a7d0, #f6edb2ca); color: aliceblue;">
+    <div>
+      <img src="logoPTIT.png" alt="" srcset="" style="width: 24px; padding: 2px 5px;">
+      <img src="logo-doan.png" alt="" srcset="" style="width: 24px; padding: 5px;">
+    </div>
+    <div>
+
+      VPĐ - BÁO TƯỜNG 20.11.2023 - AR
+    </div>
+  </div>
+
   <!-- minimal loader shown until image descriptors are loaded. Loading may take a while according to the device computational power -->
   <div class="arjs-loader">
     <div>Loading, please wait...</div>
@@ -42,6 +156,12 @@
   <!-- a-frame scene -->
   <a-scene vr-mode-ui="enabled: false;" renderer="logarithmicDepthBuffer: true;" embedded
     arjs="trackingMethod: best; sourceType: webcam;debugUIEnabled: false;">
+    <a-assets>
+      <a-asset-item src="sm-bird-singing.mp3" preload="auto" id="sound" response-type="arraybuffer" loop crossorigin
+        webkit-playsinline autoplay playsinline>
+      </a-asset-item>
+    </a-assets>
+
     <!-- a-nft is the anchor that defines an Image Tracking entity -->
     <!-- on 'url' use the path to the Image Descriptors created before. -->
     <!-- the path should end with the name without the extension e.g. if file is trex.fset' the path should end with trex -->
@@ -56,27 +176,30 @@
       <a-entity gltf-model="./Butterflies/scene.gltf" scale="1 1 1" position="100 -200 -150" rotation="150 60 110"
         animation-mixer="clip: Take 001">
       </a-entity>
+      <a-sound src="#sound" autoplay="true"></a-sound>
+      <!-- <a-sound src="#sound" position="100 -200 -150"></a-sound> -->
+      </a-entity>
     </a-nft>
+
+
+
     <a-nft type="nft" url="./output/huongduong" smooth="true" smoothCount="10" smoothTolerance=".01"
       smoothThreshold="5">
       <!-- as a child of the a-nft entity, you can define the content to show. here's a GLTF model entity -->
       <a-entity gltf-model="./Animated_Flying_Fluttering_Butterfly_Loop/scene.gltf" position="95 -233 -200"
         scale="1000 1000 1000" rotation="0 -90 45" animation-mixer="clip: *;">
       </a-entity>
-        <a-sound src="https://cdn.aframe.io/basic-guide/audio/backgroundnoise.wav" autoplay="true"
-          position="95 -233 -200"></a-sound>
     </a-nft>
-    <a-asset>
-      <audio src="bird-singing.mp3" autoplay preload></audio>
-    </a-asset>
+
+
     <!-- <a-entity gltf-model="./butter_flying/scene.gltf" scale="5 5 5" position="0 0.5 -5"
       animation-mixer="clip: Take 001">
     </a-entity> -->
     <!-- <a-entity text="value: Hello, A-Frame!; color: #BBB" position="0 0.5 -3" scale="1.5 1.5 1.5"></a-entity> -->
+
     <!-- static camera that moves according to the device movemenents -->
-    <a-entity camera>
-      <!-- <a-cursor></a-cursor> -->
-    </a-entity>
+    <a-entity camera></a-entity>
+
   </a-scene>
 </body>
 
